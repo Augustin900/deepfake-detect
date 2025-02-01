@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection</title>
+
+    <!-- stylesheet inclusion for flask -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/internal/fonts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+
+    <!-- stylesheet inclusion for live preview -->
+    <link rel="stylesheet" href="/static/styles/internal/fonts.css">
+    <link rel="stylesheet" href="/static/styles/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- header container -->
+        <div class="textContainer">
+            <h1>Upload a File for Fake News Detection</h1>
+        </div>
+
+        <!-- form container -->
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" class="file">
+            <button type="submit" class="upload">Upload</button>
+        </form>
+
+        <!-- prediction container -->
+        <div class="hide">{% if prediction %}</div>
+            <div class="predictionContainer">
+                <h2>{{ prediction }}</h2>
+            </div>
+        <div class="hide">{% endif %}</div>
+
+        <!-- image preview container -->
+        <div class="hide">{% if image_url %}</div>
+            <div class="imageContainer">
+                <h2>Uploaded Image:</h2>
+                <img src="{{ url_for('uploaded_file', filename=image_url) }}">
+            </div>
+        <div class="hide">{% endif %}</div>
+    </div>
+</body>
+</html>
