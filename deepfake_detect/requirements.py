@@ -15,11 +15,10 @@ from flask import *
 environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 # TensorFlow reqirements
-import tensorflow as tf
-import tensorflow.keras                                                    # type: ignore
-from tensorflow.keras.models import Model, load_model                      # type: ignore
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout # type: ignore
-from tensorflow.keras.applications import EfficientNetB0                   # type: ignore
-from tensorflow.keras.preprocessing.image import ImageDataGenerator        # type: ignore
-from tensorflow.keras.optimizers import Adam                               # type: ignore
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping      # type: ignore
+from keras.models import Model, load_model                          # type: ignore
+from keras.layers import Dense, GlobalAveragePooling2D, Dropout     # type: ignore
+from keras.applications import EfficientNetB0                       # type: ignore
+from keras.src.legacy.preprocessing.image import ImageDataGenerator # type: ignore
+from keras.optimizers import Adam                                   # type: ignore
+from keras.callbacks import ModelCheckpoint, EarlyStopping          # type: ignore
+from keras.saving import save_model                                 # type: ignore

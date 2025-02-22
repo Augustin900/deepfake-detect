@@ -1,62 +1,6 @@
 from requirements import *
 from settings import *
-
-def insert_at_position(text, insert_chars, position):
-    """
-    Inserts a set of characters at a specific position in the text, adjusting the text to ensure
-    the characters are always at that position.
-
-    Parameters:
-    - text (str): The original text.
-    - insert_chars (str): The characters to insert.
-    - position (int): The position at which to insert the characters (0-indexed).
-
-    Returns:
-    - str: The modified text with the inserted characters.
-    """
-    # Ensure the position is within bounds
-    if position < 0:
-        position = 0
-
-    # Create padding if needed
-    if len(text) < position:
-        text = text.ljust(position)
-
-    # Insert the characters
-    modified_text = text[:position] + insert_chars + text[position:]
-    
-    return modified_text
-
-def insert_at_position_and_print(text, insert_chars, position):
-    print(insert_at_position(text, insert_chars, position))
-
-def print_error(message, quit=True):
-    print(f"{fg('red')}", end="")
-    insert_at_position_and_print(f"|- {"E: " if not quit else ""}{message}{"Aborting!" if quit else ""}", " -|", 75)
-    print(f"{attr('reset')}", end="")
-
-    if quit:
-        print("|- ======================================================================== -|")
-        exit()
-
-def print_error_ext(message):
-    print(f"{fg('red')}", end="")
-    insert_at_position_and_print(f"|- {message}", " -|", 75)
-    print(f"{attr('reset')}", end="")
-
-def print_info(message):
-    print(f"{fg('blue')}", end="")
-    insert_at_position_and_print(f"|- I: {message}", " -|", 75)
-    print(f"{attr('reset')}", end="")
-
-def print_info_ext(message):
-    print(f"{fg('blue')}", end="")
-    insert_at_position_and_print(f"|- {message}", " -|", 75)
-    print(f"{attr('reset')}", end="")
-
-system("cls" if name == "nt" else "clear")
-
-print("|- ======================================================================== -|")
+from common_functions import *
 
 print_info("Train data directories: ")
 print_info_ext(f"{listdir(TRAIN_DIR)}")
@@ -81,7 +25,7 @@ print_info_ext(f"Real: {val_real_list}")
 print_info_ext(f"Fake: {val_fake_list}")
 
 if not train_real_list or not train_fake_list or not val_real_list or not val_fake_list:
-    print_error(f"No images have been found in the following folders: ", False)
+    print_error_header("No images have been found in the following folders: ")
 
     if not train_real_list:
         print_error_ext(f"{train_real_dir}")
@@ -95,7 +39,9 @@ if not train_real_list or not train_fake_list or not val_real_list or not val_fa
     if not val_fake_list:
         print_error_ext(f"{val_real_dir}")
 
-    print_error(f"", True)
+    print_error_end()
+
+print("|- ======================================================================== -|")
 
 # Data Augmentation for training set
 train_datagen = ImageDataGenerator(
@@ -155,4 +101,4 @@ history = model.fit(
 )
 
 # Optionally, save the final model
-model.save(MODEL_SAVE_PATH)
+save_model(model, MODEL_SAVE_PATH)
